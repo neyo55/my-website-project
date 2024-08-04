@@ -76,9 +76,6 @@ if __name__ == "__main__":
 
 
 
-
-
-
 # from flask import Flask, request, render_template
 # import mysql.connector
 # from dotenv import load_dotenv

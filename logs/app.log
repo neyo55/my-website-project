@@ -1,0 +1,43 @@
+2024-08-04 16:21:53,008 ERROR:Error connecting to the database: 2003 (HY000): Can't connect to MySQL server on '46.101.11.165:3306' (111)
+2024-08-04 16:21:53,150 ERROR:Error connecting to the database: 2003 (HY000): Can't connect to MySQL server on '46.101.11.165:3306' (111)
+2024-08-04 16:22:32,188 ERROR:Error connecting to the database: 2003 (HY000): Can't connect to MySQL server on '46.101.11.165:3306' (111)
+2024-08-04 16:22:32,300 ERROR:Error connecting to the database: 2003 (HY000): Can't connect to MySQL server on '46.101.11.165:3306' (111)
+2024-08-04 17:18:53,407 INFO:Database connection established successfully.
+2024-08-04 17:18:53,499 INFO:Database connection established successfully.
+2024-08-04 17:18:53,938 INFO:Database connection established successfully.
+2024-08-04 17:18:53,939 INFO:Database connection established successfully.
+2024-08-04 17:39:53,666 INFO:Database connection established successfully.
+2024-08-04 17:39:53,700 INFO:Database connection established successfully.
+2024-08-04 17:39:59,402 INFO:Database connection established successfully.
+2024-08-04 17:39:59,493 INFO:Database connection established successfully.
+2024-08-04 18:08:48,056 INFO:Database connection established successfully.
+2024-08-04 18:08:48,109 INFO:Database connection established successfully.
+2024-08-04 18:08:49,232 INFO:Database connection established successfully.
+2024-08-04 18:08:49,288 INFO:Database connection established successfully.
+2024-08-04 18:26:09,881 INFO:Database connection established successfully.
+2024-08-04 18:26:09,980 INFO:Database connection established successfully.
+2024-08-04 18:26:10,031 INFO:Database connection established successfully.
+2024-08-04 19:10:23,860 ERROR:Error connecting to the database: 2003 (HY000): Can't connect to MySQL server on '46.101.11.165:3306' (111)
+2024-08-04 19:10:23,865 ERROR:Error connecting to the database: 2003 (HY000): Can't connect to MySQL server on '46.101.11.165:3306' (111)
+2024-08-04 21:22:52,849 ERROR:Error connecting to the database: 2003 (HY000): Can't connect to MySQL server on '46.101.11.165:3306' (111)
+2024-08-04 21:22:52,921 ERROR:Error connecting to the database: 2003 (HY000): Can't connect to MySQL server on '46.101.11.165:3306' (111)
+2024-08-04 21:23:40,664 ERROR:Error connecting to the database: 2003 (HY000): Can't connect to MySQL server on '46.101.11.165:3306' (111)
+2024-08-04 21:23:40,863 ERROR:Error connecting to the database: 2003 (HY000): Can't connect to MySQL server on '46.101.11.165:3306' (111)
+2024-08-04 21:31:17,351 ERROR:Error connecting to the database: 2003 (HY000): Can't connect to MySQL server on '46.101.11.165:3306' (111)
+2024-08-04 21:31:17,377 ERROR:Error connecting to the database: 2003 (HY000): Can't connect to MySQL server on '46.101.11.165:3306' (111)
+2024-08-04 21:32:07,329 ERROR:Error connecting to the database: 2003 (HY000): Can't connect to MySQL server on '46.101.11.165:3306' (111)
+2024-08-04 21:32:07,330 ERROR:Error connecting to the database: 2003 (HY000): Can't connect to MySQL server on '46.101.11.165:3306' (111)
+2024-08-04 21:58:43,664 ERROR:Error connecting to the database: 2003 (HY000): Can't connect to MySQL server on '46.101.11.165:3306' (111)
+2024-08-04 21:58:43,665 ERROR:Error connecting to the database: 2003 (HY000): Can't connect to MySQL server on '46.101.11.165:3306' (111)
+2024-08-04 22:07:13,682 ERROR:Error connecting to the database: 2003 (HY000): Can't connect to MySQL server on '46.101.11.165:3306' (111)
+2024-08-04 22:07:13,682 ERROR:Error connecting to the database: 2003 (HY000): Can't connect to MySQL server on '46.101.11.165:3306' (111)
+2024-08-04 22:32:16,798 ERROR:Error connecting to the database: 2003 (HY000): Can't connect to MySQL server on '46.101.11.165:3306' (111)
+2024-08-04 22:32:16,798 ERROR:Error connecting to the database: 2003 (HY000): Can't connect to MySQL server on '46.101.11.165:3306' (111)
+2024-08-04 22:33:39,828 ERROR:Error connecting to the database: 2003 (HY000): Can't connect to MySQL server on '46.101.11.165:3306' (111)
+2024-08-04 22:33:40,063 ERROR:Error connecting to the database: 2003 (HY000): Can't connect to MySQL server on '46.101.11.165:3306' (111)
+2024-08-04 22:34:27,512 ERROR:Error connecting to the database: 2003 (HY000): Can't connect to MySQL server on '46.101.11.165:3306' (111)
+2024-08-04 22:34:27,602 ERROR:Error connecting to the database: 2003 (HY000): Can't connect to MySQL server on '46.101.11.165:3306' (111)
+2024-08-04 22:43:46,517 INFO:Database connection established successfully.
+2024-08-04 22:43:46,558 INFO:Database connection established successfully.
+2024-08-04 22:43:48,225 INFO:Database connection established successfully.
+2024-08-04 22:43:48,247 INFO:Database connection established successfully.

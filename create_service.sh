@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# create_service.sh
+
 # Variables
 SERVICE_NAME="my_web_app"
 PROJECT_DIR=$(dirname "$(realpath "$0")")
@@ -49,56 +51,3 @@ sudo systemctl restart $SERVICE_NAME
 # Check the status of the service
 echo "Checking the status of the $SERVICE_NAME service..."
 sudo systemctl status $SERVICE_NAME
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# #!/bin/bash
-
-# # Variables
-# SERVICE_NAME="my_web_app"
-# PROJECT_DIR="$HOME/my-website-project"
-# VENV_PATH="$PROJECT_DIR/.venv"
-# USER_NAME=$(whoami)
-# SERVICE_FILE="/etc/systemd/system/$SERVICE_NAME.service"
-
-# # Create the system service file
-# echo "Creating system service file for $SERVICE_NAME..."
-
-# sudo bash -c "cat > $SERVICE_FILE" <<EOL
-# [Unit]
-# Description=Gunicorn instance to serve my web app
-# After=network.target
-
-# [Service]
-# User=$USER_NAME
-# Group=www-data
-# WorkingDirectory=$PROJECT_DIR
-# Environment=\"PATH=$VENV_PATH/bin\"
-# ExecStart=$VENV_PATH/bin/gunicorn -c $PROJECT_DIR/gunicorn_config.py app:app
-
-# [Install]
-# WantedBy=multi-user.target
-# EOL
-
-# # Enable and start the service
-# echo "Enabling and starting the $SERVICE_NAME service..."
-# sudo systemctl enable $SERVICE_NAME
-# sudo systemctl start $SERVICE_NAME
-
-# # Check the status of the service
-# echo "Checking the status of the $SERVICE_NAME service..."
-# sudo systemctl status $SERVICE_NAME
