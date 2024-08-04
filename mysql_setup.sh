@@ -85,19 +85,45 @@ if [[ $? -ne 0 ]]; then
 fi
 
 # Check if the database exists
-DB_EXISTS=$(mysql -u"$DB_USER" -p"$DB_PASSWORD" -h"$DB_HOST" -e "SHOW DATABASES LIKE '$DB_NAME';" | grep "$DB_NAME" > /dev/null; echo "$?")
+DB_EXISTS=$(mysql -u root -p"$DB_ROOT_PASS" -e "SHOW DATABASES LIKE '$DB_NAME';" | grep "$DB_NAME" > /dev/null; echo "$?")
 if [[ $DB_EXISTS -eq 0 ]]; then
     log "Database $DB_NAME already exists."
 else
     log "Creating database $DB_NAME..."
     
-    # Create the database and table
-    mysql -u"$DB_USER" -p"$DB_PASSWORD" -h"$DB_HOST" -e "CREATE DATABASE $DB_NAME;" | tee -a "$LOG_FILE"
+    # Create the database
+    mysql -u root -p"$DB_ROOT_PASS" -e "CREATE DATABASE $DB_NAME;" | tee -a "$LOG_FILE"
     if [[ $? -ne 0 ]]; then
         log "Failed to create database $DB_NAME."
         exit 1
     fi
+fi
 
+# Check if the user exists
+USER_EXISTS=$(mysql -u root -p"$DB_ROOT_PASS" -e "SELECT 1 FROM mysql.user WHERE user = '$DB_USER';" | grep 1 > /dev/null; echo "$?")
+if [[ $USER_EXISTS -eq 0 ]]; then
+    log "User $DB_USER already exists."
+else
+    log "Creating user $DB_USER..."
+
+    # Create the user and grant privileges
+    mysql -u root -p"$DB_ROOT_PASS" -e "CREATE USER '$DB_USER'@'%' IDENTIFIED BY '$DB_PASSWORD'; GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%'; FLUSH PRIVILEGES;" | tee -a "$LOG_FILE"
+    if [[ $? -ne 0 ]]; then
+        log "Failed to create user $DB_USER or grant privileges."
+        exit 1
+    fi
+
+    log "User $DB_USER created and granted privileges."
+fi
+
+# Check if the table exists
+TABLE_EXISTS=$(mysql -u"$DB_USER" -p"$DB_PASSWORD" -h"$DB_HOST" -D"$DB_NAME" -e "SHOW TABLES LIKE 'users';" | grep "users" > /dev/null; echo "$?")
+if [[ $TABLE_EXISTS -eq 0 ]]; then
+    log "Table 'users' already exists in database $DB_NAME."
+else
+    log "Creating table 'users' in database $DB_NAME..."
+
+    # Create the table
     mysql -u"$DB_USER" -p"$DB_PASSWORD" -h"$DB_HOST" -D"$DB_NAME" -e "
     CREATE TABLE users (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -109,14 +135,22 @@ else
         address TEXT
     );" | tee -a "$LOG_FILE"
     if [[ $? -ne 0 ]]; then
-        log "Failed to create table in database $DB_NAME."
+        log "Failed to create table 'users' in database $DB_NAME."
         exit 1
     fi
 
-    log "Database and table created successfully."
+    log "Table 'users' created successfully in database $DB_NAME."
 fi
 
 log "MySQL setup completed successfully."
+
+
+
+
+
+
+
+
 
 
 
@@ -137,72 +171,6 @@ log "MySQL setup completed successfully."
 # LOG_FILE="$PROJECT_DIR/install.log"
 # ENV_FILE="$PROJECT_DIR/.env"
 
-# # Function to log messages
-# log() {
-#     echo "$1" | tee -a "$LOG_FILE"
-# }
-
-# # Ensure the log file exists and truncate it for a new run
-# echo "Starting new MySQL setup log..." > "$LOG_FILE"
-
-# # Check if MySQL is already installed
-# if command -v mysql &> /dev/null; then
-#     log "MySQL is already installed."
-# else
-#     log "MySQL is not installed. Installing MySQL..."
-#     sudo apt update | tee -a "$LOG_FILE"
-#     sudo apt install -y mysql-server | tee -a "$LOG_FILE"
-#     if [[ $? -ne 0 ]]; then
-#         log "Failed to install MySQL."
-#         exit 1
-#     fi
-# fi
-
-# # Secure MySQL installation
-# log "Securing MySQL installation..."
-# sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '${DB_ROOT_PASS}'; FLUSH PRIVILEGES;" | tee -a "$LOG_FILE"
-
-# sudo mysql_secure_installation <<EOF
-
-# y
-# $DB_ROOT_PASS
-# $DB_ROOT_PASS
-# y
-# y
-# y
-# y
-# EOF
-
-# # Log into MySQL as root and create the database and user
-# log "Creating database and user..."
-# sudo mysql -u root -p"$DB_ROOT_PASS" -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;" | tee -a "$LOG_FILE"
-# sudo mysql -u root -p"$DB_ROOT_PASS" -e "CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$DB_PASSWORD';" | tee -a "$LOG_FILE"
-# sudo mysql -u root -p"$DB_ROOT_PASS" -e "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%';" | tee -a "$LOG_FILE"
-# sudo mysql -u root -p"$DB_ROOT_PASS" -e "FLUSH PRIVILEGES;" | tee -a "$LOG_FILE"
-
-# # Create the table
-# log "Creating table..."
-# sudo mysql -u root -p"$DB_ROOT_PASS" -e "USE $DB_NAME; CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100), email VARCHAR(100), phone VARCHAR(20), dob DATE, gender VARCHAR(10), address TEXT);" | tee -a "$LOG_FILE"
-
-# log "MySQL setup completed successfully."
-
-
-
-
-
-
-
-
-
-
-
-# #!/bin/bash
-
-# # Set variables
-# PROJECT_DIR="$HOME/my-website-project"
-# LOG_FILE="$PROJECT_DIR/install.log"
-# ENV_FILE="$PROJECT_DIR/.env"
-
 # # Function to check if a command exists
 # command_exists() {
 #     command -v "$1" &> /dev/null
@@ -218,7 +186,11 @@ log "MySQL setup completed successfully."
 
 # # Load environment variables from .env file
 # if [ -f "$ENV_FILE" ]; then
-#     export $(cat "$ENV_FILE" | grep -v '#' | awk '/=/ {print $1}')
+#     while IFS= read -r line || [ -n "$line" ]; do
+#         if [[ ! $line =~ ^# && $line == *=* ]]; then
+#             export "$line"
+#         fi
+#     done < "$ENV_FILE"
 # else
 #     log ".env file not found."
 #     exit 1
@@ -279,20 +251,29 @@ log "MySQL setup completed successfully."
 # fi
 
 # # Check if the database exists
-# DB_EXISTS=$(mysql -u$DB_USER -p$DB_PASSWORD -h$DB_HOST -e "SHOW DATABASES LIKE '$DB_NAME';" | grep "$DB_NAME" > /dev/null; echo "$?")
+# DB_EXISTS=$(mysql -u"$DB_USER" -p"$DB_PASSWORD" -h"$DB_HOST" -e "SHOW DATABASES LIKE '$DB_NAME';" | grep "$DB_NAME" > /dev/null; echo "$?")
 # if [[ $DB_EXISTS -eq 0 ]]; then
 #     log "Database $DB_NAME already exists."
 # else
 #     log "Creating database $DB_NAME..."
     
-#     # Create the database and table
-#     mysql -u$DB_USER -p$DB_PASSWORD -h$DB_HOST -e "CREATE DATABASE $DB_NAME;" | tee -a "$LOG_FILE"
+#     # Create the database
+#     mysql -u"$DB_USER" -p"$DB_PASSWORD" -h"$DB_HOST" -e "CREATE DATABASE $DB_NAME;" | tee -a "$LOG_FILE"
 #     if [[ $? -ne 0 ]]; then
 #         log "Failed to create database $DB_NAME."
 #         exit 1
 #     fi
+# fi
 
-#     mysql -u$DB_USER -p$DB_PASSWORD -h$DB_HOST -D$DB_NAME -e "
+# # Check if the table exists
+# TABLE_EXISTS=$(mysql -u"$DB_USER" -p"$DB_PASSWORD" -h"$DB_HOST" -D"$DB_NAME" -e "SHOW TABLES LIKE 'users';" | grep "users" > /dev/null; echo "$?")
+# if [[ $TABLE_EXISTS -eq 0 ]]; then
+#     log "Table 'users' already exists in database $DB_NAME."
+# else
+#     log "Creating table 'users' in database $DB_NAME..."
+
+#     # Create the table
+#     mysql -u"$DB_USER" -p"$DB_PASSWORD" -h"$DB_HOST" -D"$DB_NAME" -e "
 #     CREATE TABLE users (
 #         id INT AUTO_INCREMENT PRIMARY KEY,
 #         name VARCHAR(100),
@@ -303,11 +284,11 @@ log "MySQL setup completed successfully."
 #         address TEXT
 #     );" | tee -a "$LOG_FILE"
 #     if [[ $? -ne 0 ]]; then
-#         log "Failed to create table in database $DB_NAME."
+#         log "Failed to create table 'users' in database $DB_NAME."
 #         exit 1
 #     fi
 
-#     log "Database and table created successfully."
+#     log "Table 'users' created successfully in database $DB_NAME."
 # fi
 
 # log "MySQL setup completed successfully."

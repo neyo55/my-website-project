@@ -57,10 +57,21 @@ NGINX_CONF_CONTENT="server {
         proxy_set_header X-Forwarded-Proto \$scheme;
     }
 
+    location ~ ^/adminer.php(/|$) {
+        root /var/www/html;
+        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+    }
+
     error_page 500 502 503 504 /50x.html;
     location = /50x.html {
         root /usr/share/nginx/html;
     }
+
+    error_log /var/log/nginx/error.log;
+    access_log /var/log/nginx/access.log;
 }"
 
 # Create or update the custom error page
@@ -95,12 +106,14 @@ sudo systemctl status nginx
 
 
 
+
+
+
 # #!/bin/bash
 
 # # Variables
 # NGINX_CONF="/etc/nginx/sites-available/my_web_app"
 # NGINX_CONF_LINK="/etc/nginx/sites-enabled/my_web_app"
-# PROJECT_DIR="$HOME/my-website-project"
 # DOMAIN_OR_IP="46.101.11.165"  # Replace with your domain or IP
 # ERROR_PAGE="/usr/share/nginx/html/50x.html"
 
@@ -155,10 +168,21 @@ sudo systemctl status nginx
 #         proxy_set_header X-Forwarded-Proto \$scheme;
 #     }
 
+#     location ~ ^/adminer.php(/|$) {
+#         root /var/www/html;
+#         fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
+#         fastcgi_index index.php;
+#         include fastcgi_params;
+#         fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+#     }
+
 #     error_page 500 502 503 504 /50x.html;
 #     location = /50x.html {
 #         root /usr/share/nginx/html;
 #     }
+
+#     error_log /var/log/nginx/error.log;
+#     access_log /var/log/nginx/access.log;
 # }"
 
 # # Create or update the custom error page
@@ -184,17 +208,6 @@ sudo systemctl status nginx
 # # Check Nginx status
 # echo "Checking Nginx status..."
 # sudo systemctl status nginx
-
-
-
-
-
-
-
-
-
-
-
 
 
 
