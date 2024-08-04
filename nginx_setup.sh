@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# nginx_setup.sh
-
 # Variables
 NGINX_CONF="/etc/nginx/sites-available/my_web_app"
 NGINX_CONF_LINK="/etc/nginx/sites-enabled/my_web_app"
@@ -9,6 +7,7 @@ DOMAIN_OR_IP="46.101.11.165"  # Replace with your domain or IP
 ERROR_PAGE="/usr/share/nginx/html/50x.html"
 ADMINER_URL="https://www.adminer.org/latest.php"
 ADMINER_FILE="/var/www/html/adminer.php"
+PHP_INFO_FILE="/var/www/html/info.php"
 
 # Function to create or update a file
 create_or_update_file() {
@@ -96,6 +95,23 @@ if [[ ! -f "$ADMINER_FILE" ]]; then
     sudo wget "$ADMINER_URL" -O "$ADMINER_FILE"
     sudo chown www-data:www-data "$ADMINER_FILE"
     sudo chmod 755 "$ADMINER_FILE"
+fi
+
+# Install PHP extensions if not already installed
+if ! php -m | grep -q 'mysqli'; then
+    echo "Installing PHP MySQL extensions..."
+    sudo apt update
+    sudo apt install -y php8.1-mysql
+    sudo systemctl restart php8.1-fpm
+    sudo systemctl restart nginx
+fi
+
+# Create PHP info file for verification
+if [[ ! -f "$PHP_INFO_FILE" ]]; then
+    echo "Creating PHP info file..."
+    echo "<?php phpinfo(); ?>" | sudo tee "$PHP_INFO_FILE"
+    sudo chown www-data:www-data "$PHP_INFO_FILE"
+    sudo chmod 755 "$PHP_INFO_FILE"
 fi
 
 # Test Nginx configuration
