@@ -1,0 +1,117 @@
+/* Existing CSS */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 10px; /* Added padding for small screens */
+}
+
+.form-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px; /* Ensure it doesn't exceed 400px */
+    box-sizing: border-box; /* Ensure padding and border are included in the width */
+    overflow: hidden; /* Prevent content from overflowing */
+}
+
+.form-container h1 {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.2em; /* Adjust font size */
+    color: #333;
+    word-wrap: break-word; /* Allow long words to be broken and wrap to the next line */
+    overflow: hidden; /* Ensure text does not overflow the container */
+    white-space: nowrap; /* Prevent wrapping of text */
+    text-overflow: ellipsis; /* Add ellipsis if the text overflows */
+}
+
+h1 {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 2em; /* Adjust font size */
+    color: #333;
+    word-wrap: break-word; /* Allow long words to be broken and wrap to the next line */
+    overflow: hidden; /* Ensure text does not overflow the container */
+    white-space: nowrap; /* Prevent wrapping of text */
+    text-overflow: ellipsis; /* Add ellipsis if the text overflows */
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#agree {
+    width: auto;
+}
+
+/* Responsive Design */
+@media only screen and (max-width: 768px) {
+    .form-container {
+        width: 90%; /* Make form container more flexible */
+        padding: 15px; /* Adjust padding */
+    }
+
+    h1 {
+        font-size: 1.5em; /* Smaller font size for smaller screens */
+    }
+
+    input, select, textarea, button {
+        font-size: 14px; /* Adjust font size for inputs and button */
+        padding: 8px; /* Adjust padding */
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .form-container {
+        width: 100%;
+        padding: 10px; /* Further adjust padding */
+    }
+
+    h1 {
+        font-size: 1.2em; /* Further reduce font size for very small screens */
+        word-wrap: break-word; /* Ensure long words wrap correctly */
+    }
+
+    input, select, textarea, button {
+        font-size: 12px; /* Further adjust font size */
+        padding: 6px; /* Further adjust padding */
+    }
+}
