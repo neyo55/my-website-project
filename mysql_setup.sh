@@ -86,6 +86,16 @@ if [[ $? -ne 0 ]]; then
     exit 1
 fi
 
+# Configure MySQL to bind to 0.0.0.0
+sudo sed -i "s/^bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/mysql.conf.d/mysqld.cnf
+sudo systemctl restart mysql
+
+# Grant remote access to the MySQL user
+sudo mysql -u root -p"$DB_ROOT_PASS" <<-EOF
+    GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$DB_ROOT_PASS' WITH GRANT OPTION;
+    FLUSH PRIVILEGES;
+EOF
+
 # Check if the database exists
 DB_EXISTS=$(mysql -u"$DB_USER" -p"$DB_PASSWORD" -h"$DB_HOST" -e "SHOW DATABASES LIKE '$DB_NAME';" | grep "$DB_NAME" > /dev/null; echo "$?")
 if [[ $DB_EXISTS -eq 0 ]]; then
