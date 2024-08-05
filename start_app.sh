@@ -12,8 +12,9 @@ log() {
     echo "$1" | tee -a "$LOG_FILE"
 }
 
-# Function to check and install Python if not already installed
-install_python() {
+# Function to check and install dependencies if not already installed
+install_dependencies() {
+    # Check and install Python if necessary
     if ! command -v python3 &> /dev/null; then
         log "Python3 is not installed. Installing Python3..."
         sudo apt update | tee -a "$LOG_FILE"
@@ -36,10 +37,8 @@ install_python() {
     else
         log "Python is already installed."
     fi
-}
 
-# Function to check and install Nginx, PHP 8.1, PHP-FPM, and PHP-MySQL if not already installed
-install_web_stack() {
+    # Check and install Nginx, PHP 8.1, PHP-FPM, and PHP-MySQL if not already installed
     if ! command -v nginx &> /dev/null; then
         log "Nginx is not installed. Installing Nginx..."
         sudo apt install -y nginx | tee -a "$LOG_FILE"
@@ -75,16 +74,25 @@ install_web_stack() {
             log "PHP 8.1 is already installed."
         fi
     fi
+
+    # Check and install gettext if necessary
+    if ! command -v envsubst &> /dev/null; then
+        log "envsubst is not installed. Installing gettext..."
+        sudo apt install -y gettext | tee -a "$LOG_FILE"
+        if [[ $? -ne 0 ]]; then
+            log "Failed to install gettext."
+            exit 1
+        fi
+    else
+        log "envsubst is already installed."
+    fi
 }
 
 # Ensure the log file exists and truncate it for a new run
 log "Starting new installation log..."
 
-# Check and install Python if necessary
-install_python
-
-# Check and install Nginx, PHP 8.1, PHP-FPM, and PHP-MySQL if necessary
-install_web_stack
+# Install dependencies
+install_dependencies
 
 # Check if the virtual environment directory exists
 if [[ ! -d "$VENV_PATH" ]]; then
@@ -98,15 +106,9 @@ fi
 
 # Activate the virtual environment
 log "Activating the virtual environment..."
-if [ -f "$VENV_PATH/bin/activate" ]; then
-    if source "$VENV_PATH/bin/activate"; then
-        log "Virtual environment activated."
-    else
-        log "Failed to activate the virtual environment."
-        exit 1
-    fi
-else
-    log "Virtual environment activation script not found."
+source "$VENV_PATH/bin/activate"
+if [[ $? -ne 0 ]]; then
+    log "Failed to activate the virtual environment."
     exit 1
 fi
 
