@@ -42,3 +42,15 @@
 2024-08-04 22:43:48,225 INFO:Database connection established successfully.
 2024-08-04 22:43:48,247 INFO:Database connection established successfully.
 2024-08-04 22:53:33,821 INFO:Successfully inserted data for Rufai kabiru adeniyi into the database.
+2024-08-05 10:28:38,847 ERROR:Error connecting to the database: 2003 (HY000): Can't connect to MySQL server on '167.99.81.27:3306' (111)
+2024-08-05 10:28:38,870 ERROR:Error connecting to the database: 2003 (HY000): Can't connect to MySQL server on '167.99.81.27:3306' (111)
+2024-08-05 10:29:23,079 ERROR:Error connecting to the database: 1130 (HY000): Host '167.99.81.27' is not allowed to connect to this MySQL server
+2024-08-05 10:29:23,094 ERROR:Error connecting to the database: 1130 (HY000): Host '167.99.81.27' is not allowed to connect to this MySQL server
+2024-08-05 10:48:44,577 ERROR:Error connecting to the database: 1130 (HY000): Host '167.99.81.27' is not allowed to connect to this MySQL server
+2024-08-05 10:48:44,646 ERROR:Error connecting to the database: 1130 (HY000): Host '167.99.81.27' is not allowed to connect to this MySQL server
+2024-08-05 10:49:15,152 INFO:Database connection established successfully.
+2024-08-05 10:49:15,173 INFO:Database connection established successfully.
+2024-08-05 11:15:30,113 INFO:Database connection established successfully.
+2024-08-05 11:15:30,134 INFO:Database connection established successfully.
+2024-08-05 11:25:23,675 INFO:Database connection established successfully.
+2024-08-05 11:25:23,765 INFO:Database connection established successfully.

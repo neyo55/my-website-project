@@ -3,12 +3,12 @@ MySQL is already installed.
 MySQL is already installed.
 MySQL service is already running.
 MySQL service is already running.
+Creating MySQL user and granting privileges...
+Creating MySQL user and granting privileges...
 Database neyo_db already exists.
 Database neyo_db already exists.
-Creating table 'users' in database neyo_db...
-Creating table 'users' in database neyo_db...
-Table 'users' created successfully in database neyo_db.
-Table 'users' created successfully in database neyo_db.
+Table 'users' already exists in database neyo_db.
+Table 'users' already exists in database neyo_db.
 MySQL setup completed successfully.
 MySQL setup completed successfully.
 Stopping Gunicorn service...

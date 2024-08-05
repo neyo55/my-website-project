@@ -90,9 +90,11 @@ fi
 sudo sed -i "s/^bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/mysql.conf.d/mysqld.cnf
 sudo systemctl restart mysql
 
-# Grant remote access to the MySQL user
+# Create MySQL user and grant remote access
+log "Creating MySQL user and granting privileges..."
 sudo mysql -u root -p"$DB_ROOT_PASS" <<-EOF
-    GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$DB_ROOT_PASS' WITH GRANT OPTION;
+    CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$DB_PASSWORD';
+    GRANT ALL PRIVILEGES ON *.* TO '$DB_USER'@'%' WITH GRANT OPTION;
     FLUSH PRIVILEGES;
 EOF
 
